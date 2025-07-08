@@ -30,3 +30,14 @@ func CreateAlunos(c *gin.Context) {
 	database.DB.Create(&aluno)
 	c.JSON(http.StatusOK, aluno)
 }
+
+func GetAlunoByID(c *gin.Context) {
+	var aluno models.Aluno
+	id := c.Params.ByName("id")
+	database.DB.First(&aluno, id)
+	c.JSON(http.StatusOK, aluno)
+	//if err := database.DB.Where("id = ?", id).First(&aluno).Error; err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+	//	return
+	//}
+}
