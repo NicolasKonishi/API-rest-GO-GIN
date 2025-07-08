@@ -10,5 +10,7 @@ func HandleRequest() {
 	//r.GET("/", func(c *gin.Context) {})
 	r.GET("/alunos", controller.GetAlunos)
 	r.GET("/:nome", controller.Hello)
+	r.POST("/alunos", controller.CreateAlunos)
+
 	r.Run()
 }

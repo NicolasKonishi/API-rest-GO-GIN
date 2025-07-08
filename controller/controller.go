@@ -1,18 +1,28 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"02Alura/database"
+	"02Alura/models"
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func GetAlunos(c *gin.Context) {
-	c.JSON(200, gin.H{
-		//"message": "Hello World",
-		//retorna uma mensagem utilizando o gin
-		"id":   "1",
-		"nome": "nicolas",
-	})
+	c.JSON(200, models.Alunos)
 }
 
 func Hello(c *gin.Context) {
 	nome := c.Params.ByName("nome")
 	c.JSON(200, gin.H{
 		"API diz : ": "Olá " + nome + ", tudo bem?"})
+}
+
+func CreateAlunos(c *gin.Context) {
+	var aluno models.Aluno
+	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	database.DB.Create(&aluno)
+	c.JSON(http.StatusOK, aluno)
 }
